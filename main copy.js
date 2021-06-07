@@ -35,6 +35,7 @@ const createElementWrapper = (el) => {
 const createDivWrapper = () => {
   return createElementWrapper('div');
 };
+
 const appendElementWrapper = (parent, el) => {
   return parent.appendChild(el);
 };
@@ -95,23 +96,6 @@ function createNewProductList(
   let newItemWrapper = createElementWrapper('li');
   newItemWrapper.setAttribute('class', 'item-wrapper');
 
-  let topSection = setItemTopSection(newProdImageLink, newProdName);
-  let midSection = setItemMidSection(
-    newProdName,
-    newProdRating,
-    newProdAvailability,
-    newProdSalePrice
-  );
-  let bottomSection = setItemBottomSection();
-
-  appendElementWrapper(newItemWrapper, topSection);
-  appendElementWrapper(newItemWrapper, midSection);
-  appendElementWrapper(newItemWrapper, bottomSection);
-
-  productList.insertAdjacentElement('afterbegin', newItemWrapper);
-}
-
-const setItemTopSection = (newProdImageLink, newProdName) => {
   //TOP SECTION
   //Create top section wrapper
   let topSection = createDivWrapper();
@@ -125,47 +109,30 @@ const setItemTopSection = (newProdImageLink, newProdName) => {
 
   //Append to top section
   appendElementWrapper(topSection, prodImage);
-  return topSection;
-};
 
-const setItemMidSection = (
-  newProdName,
-  newProdRating,
-  newProdAvailability,
-  newProdSalePrice
-) => {
   //MIDDLE SECTION
   //Create mid section wrapper
   let midSection = createDivWrapper();
   midSection.setAttribute('class', 'mid-section');
 
-  //Create mid section one content
+  //Create mid section content
   let midDivOne = createDivWrapper();
-
-  //Set product name section
   let prodNameWrapper = createDivWrapper();
   prodNameWrapper.setAttribute('class', 'prod-name');
-
   let prodNameTag = createElementWrapper('h3');
   prodNameTag.setAttribute('title', newProdName);
   prodNameTag.textContent = newProdName;
-
   appendElementWrapper(prodNameWrapper, prodNameTag);
   appendElementWrapper(midDivOne, prodNameWrapper);
 
-  //Set product ratings section
   let prodRatingsWrapper = createDivWrapper();
   prodRatingsWrapper.setAttribute('class', 'prod-rating');
 
   ratingSetter(newProdRating, prodRatingsWrapper);
-
   appendElementWrapper(midDivOne, prodRatingsWrapper);
   appendElementWrapper(midSection, midDivOne);
 
-  //Create mid section two content
   let midDivTwo = createDivWrapper();
-
-  //Set product availability section
   let prodAvailaibilityWrapper = createDivWrapper();
   prodAvailaibilityWrapper.setAttribute('class', 'prod-availbility');
   if (newProdAvailability === 'in stock') {
@@ -178,13 +145,10 @@ const setItemMidSection = (
   appendElementWrapper(prodAvailaibilityWrapper, prodAvailaibilityTag);
   appendElementWrapper(midDivTwo, prodAvailaibilityWrapper);
 
-  //Set product price section
   let prodPriceWrapper = createDivWrapper();
   prodPriceWrapper.setAttribute('class', 'prod-price');
   let prodPriceTag = createElementWrapper('p');
-
   prodPriceTag.textContent = `$${newProdSalePrice}`;
-
   appendElementWrapper(prodPriceWrapper, prodPriceTag);
   appendElementWrapper(midDivTwo, prodPriceWrapper);
 
@@ -192,10 +156,6 @@ const setItemMidSection = (
   appendElementWrapper(midSection, midDivOne);
   appendElementWrapper(midSection, midDivTwo);
 
-  return midSection;
-};
-
-const setItemBottomSection = () => {
   //BOTTOM SECTION
   //Create bottom section wrapper
   let bottomSection = createDivWrapper();
@@ -208,10 +168,13 @@ const setItemBottomSection = () => {
   <a href="#">Add to cart</a>
   `;
 
-  return bottomSection;
-};
+  appendElementWrapper(newItemWrapper, topSection);
+  appendElementWrapper(newItemWrapper, midSection);
+  appendElementWrapper(newItemWrapper, bottomSection);
+  productList.insertAdjacentElement('afterbegin', newItemWrapper);
+}
 
-const ratingSetter = (newProdRating, prodRatingsWrapper) => {
+function ratingSetter(newProdRating, prodRatingsWrapper) {
   let fullStar = createElementWrapper('span');
   fullStar.setAttribute('class', 'fas fa-star');
   let emptyStar = createElementWrapper('span');
@@ -225,4 +188,4 @@ const ratingSetter = (newProdRating, prodRatingsWrapper) => {
     appendElementWrapper(prodRatingsWrapper, emptyStar.cloneNode(true));
   }
   return prodRatingsWrapper;
-};
+}

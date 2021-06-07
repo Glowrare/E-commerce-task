@@ -317,6 +317,11 @@ footer a:hover {
     display: none;
   }
 }
+@media screen and (max-width: 640px) {
+  .product-list {
+    justify-content: center;
+  }
+}
 @media screen and (max-width: 568px) {
   .nav-toggler {
     display: block;
